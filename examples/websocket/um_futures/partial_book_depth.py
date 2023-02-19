@@ -16,7 +16,7 @@ my_client = UMFuturesWebsocketClient()
 my_client.start()
 
 my_client.partial_book_depth(
-    symbol="bnbusdt",
+    symbols=["bnbusdt", "btcusdt", "ethusdt"],
     id=1,
     level=10,
     speed=100,
