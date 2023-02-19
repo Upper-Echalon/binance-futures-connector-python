@@ -1,8 +1,16 @@
 build
-dist
-binance_connector.egg-info/
 __pycache__
 *.pyc
 .tox
 .python-version
 .DS_Store
+
+# Distribution / packaging
+develop-eggs/
+dist/
+eggs/
+.eggs/
+sdist/
+*.egg-info/
+.installed.cfg
+*.egg
