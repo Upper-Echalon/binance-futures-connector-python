@@ -1,3 +1,4 @@
+from typing import Union, List
 from binance.websocket.websocket_client import BinanceWebsocketClient
 
 
@@ -187,23 +188,30 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         else:
             self.live_subscribe(f"{symbol.lower()}@forceOrder", id, callback, **kwargs)
 
-    def partial_book_depth(
-        self, symbol: str, id: int, level, speed, callback, **kwargs
-    ):
-        """Partial Book Depth Streams
+    def partial_book_depth(self, symbols: Union[str, List[str]], id: int, level: int, speed: int, callback, **kwargs):
+        """Subscribe to partial book depth streams for a symbol.
 
-        Top bids and asks, Valid are 5, 10, or 20.
+        Valid levels are 5, 10, or 20. The update speed can be 250ms, 500ms, or 100ms.
 
-        Stream Names: <symbol>@depth<levels> OR <symbol>@depth<levels>@500ms OR <symbol>@depth<levels>@100ms
+        Stream names: <symbol>@depth<levels> OR <symbol>@depth<levels>@500ms OR <symbol>@depth<levels>@100ms
+        See https://binance-docs.github.io/apidocs/futures/en/#partial-book-depth-streams for more information.
 
-        https://binance-docs.github.io/apidocs/futures/en/#partial-book-depth-streams
+        Args:
+            symbol (Union[str, List[str]]): A single symbol or a list of symbols to subscribe to.
+            id (int): The subscription ID.
+            level (int): The depth level to subscribe to.
+            speed (int): The update speed in milliseconds.
+            callback: The callback function to call when an update is received.
+            **kwargs: Additional arguments to pass to the callback function.
 
-        Update Speed: 250ms, 500ms or 100ms
         """
+        if isinstance(symbols, list):
+            streams = [f"{s.lower()}@depth{level}@{speed}ms" for s in symbols]
+        else:
+            streams = f"{symbols.lower()}@depth{level}@{speed}ms"
 
-        self.live_subscribe(
-            f"{symbol.lower()}@depth{level}@{speed}ms", id, callback, **kwargs
-        )
+        self.live_subscribe(streams, id, callback, **kwargs)
+
 
     def diff_book_depth(self, symbol: str, id: int, speed, callback, **kwargs):
         """Diff. Depth Stream
