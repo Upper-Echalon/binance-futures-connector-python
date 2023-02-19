@@ -17,9 +17,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
 
         Update Speed: 100ms
         """
-        self.live_subscribe(
-            "{}@aggTrade".format(symbol.lower()), id, callback, **kwargs
-        )
+        self.live_subscribe(f"{symbol.lower()}@aggTrade", id, callback, **kwargs)
 
     def mark_price(self, symbol: str, id: int, speed: int, callback, **kwargs):
         """Mark Price Streams
@@ -33,7 +31,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Update Speed: 3000ms or 1000ms
         """
         self.live_subscribe(
-            "{}@markPrice@{}s".format(symbol.lower(), speed), id, callback, **kwargs
+            f"{symbol.lower()}@markPrice@{speed}s", id, callback, **kwargs
         )
 
     def kline(self, symbol: str, id: int, interval: str, callback, **kwargs):
@@ -68,7 +66,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         """
 
         self.live_subscribe(
-            "{}@kline_{}".format(symbol.lower(), interval), id, callback, **kwargs
+            f"{symbol.lower()}@kline_{interval}", id, callback, **kwargs
         )
 
     def continuous_kline(
@@ -105,10 +103,10 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         """
 
         self.live_subscribe(
-            "{}_{}@continuousKline_{}".format(pair.lower(), contractType, interval),
+            f"{pair.lower()}_{contractType}@continuousKline_{interval}",
             id,
             callback,
-            **kwargs
+            **kwargs,
         )
 
     def mini_ticker(self, id: int, callback, symbol=None, **kwargs):
@@ -129,9 +127,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         if symbol is None:
             self.live_subscribe("!miniTicker@arr", id, callback, **kwargs)
         else:
-            self.live_subscribe(
-                "{}@miniTicker".format(symbol.lower()), id, callback, **kwargs
-            )
+            self.live_subscribe(f"{symbol.lower()}@miniTicker", id, callback, **kwargs)
 
     def ticker(self, id: int, callback, symbol=None, **kwargs):
         """Individual symbol or all symbols ticker
@@ -151,9 +147,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         if symbol is None:
             self.live_subscribe("!ticker@arr", id, callback, **kwargs)
         else:
-            self.live_subscribe(
-                "{}@ticker".format(symbol.lower()), id, callback, **kwargs
-            )
+            self.live_subscribe(f"{symbol.lower()}@ticker", id, callback, **kwargs)
 
     def book_ticker(self, id: int, callback, symbol=None, **kwargs):
         """Individual symbol or all book ticker
@@ -172,15 +166,13 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         if symbol is None:
             self.live_subscribe("!bookTicker", id, callback, **kwargs)
         else:
-            self.live_subscribe(
-                "{}@bookTicker".format(symbol.lower()), id, callback, **kwargs
-            )
+            self.live_subscribe(f"{symbol.lower()}@bookTicker", id, callback, **kwargs)
 
     def liquidation_order(self, id: int, callback, symbol=None, **kwargs):
         """The Liquidation Order Snapshot Streams push force liquidation order information for specific symbol.
         The All Liquidation Order Snapshot Streams push force liquidation order information for all symbols in the market.
 
-        For each symbol，only the latest one liquidation order within 1000ms will be pushed as the snapshot. If no liquidation happens in the interval of 1000ms, no stream will be pushed.
+        For each symbol, only the latest one liquidation order within 1000ms will be pushed as the snapshot. If no liquidation happens in the interval of 1000ms, no stream will be pushed.
 
         Stream Name: <symbol>@forceOrder or
         Stream Name: !forceOrder@arr
@@ -193,9 +185,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         if symbol is None:
             self.live_subscribe("!forceOrder@arr", id, callback, **kwargs)
         else:
-            self.live_subscribe(
-                "{}@forceOrder".format(symbol.lower()), id, callback, **kwargs
-            )
+            self.live_subscribe(f"{symbol.lower()}@forceOrder", id, callback, **kwargs)
 
     def partial_book_depth(
         self, symbol: str, id: int, level, speed, callback, **kwargs
@@ -212,10 +202,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         """
 
         self.live_subscribe(
-            "{}@depth{}@{}ms".format(symbol.lower(), level, speed),
-            id,
-            callback,
-            **kwargs
+            f"{symbol.lower()}@depth{level}@{speed}ms", id, callback, **kwargs
         )
 
     def diff_book_depth(self, symbol: str, id: int, speed, callback, **kwargs):
@@ -230,7 +217,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         """
 
         self.live_subscribe(
-            "{}@depth@{}ms".format(symbol.lower(), speed), id, callback, **kwargs
+            f"{symbol.lower()}@depth@{speed}ms", id, callback, **kwargs
         )
 
     def composite_index(self, symbol: str, id: int, callback, **kwargs):
@@ -244,9 +231,7 @@ class UMFuturesWebsocketClient(BinanceWebsocketClient):
         Update Speed: 1000ms
         """
 
-        self.live_subscribe(
-            "{}@compositeIndex".format(symbol.lower()), id, callback, **kwargs
-        )
+        self.live_subscribe(f"{symbol.lower()}@compositeIndex", id, callback, **kwargs)
 
     def user_data(self, listen_key: str, id: int, callback, **kwargs):
         """listen to user data by provided listenkey"""
